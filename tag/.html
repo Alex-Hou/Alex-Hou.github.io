@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Alex-Hou's Blog - </title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="http://Alex-Hou.github.io/theme/css/main.css" type="text/css" />
+
+        <!--[if IE]>
+                <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+        <!--[if lte IE 7]>
+                <link rel="stylesheet" type="text/css" media="all" href="http://Alex-Hou.github.io/css/ie.css"/>
+                <script src="http://Alex-Hou.github.io/js/IE8.js" type="text/javascript"></script><![endif]-->
+
+        <!--[if lt IE 7]>
+                <link rel="stylesheet" type="text/css" media="all" href="http://Alex-Hou.github.io/css/ie6.css"/><![endif]-->
+
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="http://Alex-Hou.github.io">Alex-Hou's Blog </a></h1>
+                <nav>
+                    <a href="http://Alex-Hou.github.io/category/pai-zhang.html">排障</a>&nbsp;
+                </nav>
+        </header><!-- /#banner -->
+        
+        
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="http://Alex-Hou.github.io/oid.html.html">一个OID的小问题</a></h1> 
+<footer class="post-info">
+        <abbr class="published" title="2014-08-17T16:43:00">
+                周日 17 八月 2014
+        </abbr>
+<p>tags: <a href="http://Alex-Hou.github.io/tag/oid.html">oid</a><a href="http://Alex-Hou.github.io/tag/cisco.html">cisco</a><a href="http://Alex-Hou.github.io/tag/.html"></a></p></footer><!-- /.post-info --><p>最近工作中一项任务涉及到使用SNMP协议获取网络设备的启动时间。一开始，这只是个简单的体力劳动：联系厂商-&gt;索要相关OID-&gt;测试-&gt;反馈。本以为一下午就可以搞定的事情，因为测试的时候发现了“神奇的问题”而拖了两三天。这里简单记录一下探索的过程。</p>
+<h3>1. 问题描述：</h3>
+<p>按照<a href="http://tools.cisco.com/Support/SNMP/do/BrowseOID.do" title="官方网站查询">官方网站查询</a>结果，Cisco 各系列IOS路由器、交换机的sysUpTime OID均为:</p>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Object</td>
+<td>sysUpTime</td>
+</tr>
+<tr>
+<td>OID</td>
+<td>1.3.6.1.2.1.1.3</td>
+</tr>
+<tr>
+<td>Type</td>
+<td>TimeTicks</td>
+</tr>
+<tr>
+<td>Permission</td>
+<td>read-only</td>
+</tr>
+<tr>
+<td>MIB</td>
+<td>SNMPv2-MIB</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p>使用SNMP工具测试一台最近上线的设备，通过该OID取到的值与登录设备show version看到的UpTime一致。原本事情到这里就结束了，但是不知为何一时鬼迷心窍又挑了一台前几年上线的6509进行测试。一看结果：</p>
+<blockquote>
+<p>sysUpTime.0 = Timeticks: (254716234) 29 days, 11:32:42.34</p>
+</blockquote>
+<p>瞬间傻眼了。</p>
+<h3>2. 排错过程</h3>
+<p>发现问题以后，脑海里第一反应是：OID有问题，也许是取到了另一个时间，比如配置变更时间之类。但是查了我能想到的能查到的所有关于时间的值以后，发现没一个能跟上面那哥们长得一样的。
+再仔细看一下，官网给出的MIB为SNMPv2-MIB : <a href="http://tools.ietf.org/html/rfc3418">RFC3418</a>所定义的标准OID，值类型为"TimeTicks"</p>
+<div class="highlight"><pre><span class="n">sysUpTime</span> <span class="n">OBJECT</span><span class="o">-</span><span class="n">TYPE</span>
+<span class="n">SYNTAX</span>      <span class="n">TimeTicks</span>
+   <span class="n">MAX</span><span class="o">-</span><span class="n">ACCESS</span>  <span class="n">read</span><span class="o">-</span><span class="n">only</span>
+   <span class="n">STATUS</span>      <span class="n">current</span>
+   <span class="n">DESCRIPTION</span>
+           <span class="s">&quot;The time (in hundredths of a second) since the</span>
+           <span class="n">network</span> <span class="n">management</span> <span class="n">portion</span> <span class="n">of</span> <span class="n">the</span> <span class="n">system</span> <span class="n">was</span> <span class="n">last</span>
+           <span class="n">re</span><span class="o">-</span><span class="n">initialized</span><span class="p">.</span><span class="s">&quot;</span>
+   <span class="o">::=</span> <span class="p">{</span> <span class="n">system</span> <span class="mi">3</span> <span class="p">}</span>
+</pre></div>
+
+
+<p>不知道精确到1%秒是出于什么考虑。不过好像有点眉目了——这货是个无符号整数嘛，小时候老师教育我们__拿到数据要算范围，一切没有最大值最小值精确度的计算机表示都是耍流氓__。来大概猜一下：</p>
+<p><img alt="" src="http://latex.codecogs.com/gif.latex?\frac{2^{32}}{100\times&amp;space;24\times&amp;space;60&amp;space;\times&amp;space;60}=497.1026963=497&amp;space;days,02:27:53" /></p>
+<p>加上刚才的29天，show version……</p>
+<div class="highlight"><pre><span class="n">uptime</span> <span class="n">is</span> <span class="mi">1</span> <span class="n">year</span><span class="p">,</span> <span class="mi">23</span> <span class="n">weeks</span><span class="p">,</span> <span class="mi">13</span> <span class="n">hours</span><span class="p">,</span> <span class="mi">32</span> <span class="n">minutes</span>
+</pre></div>
+
+
+<p>365+23*7，日子好像差不多了，时间怎么不对？
+左思右想……
+这不就是敲这两条命令的时间差么！</p>
+<h3>3.知其所以然</h3>
+<p>子曾经曰：外事不决问谷哥。其实在网络这块，RFC才是你最后的堡垒，究极的大杀器。
+<a href="http://tools.ietf.org/html/rfc2578#section-7.1.8">TimeTicks</a></p>
+<div class="highlight"><pre><span class="mf">7.1.8</span><span class="p">.</span>  <span class="n">TimeTicks</span>
+<span class="n">The</span> <span class="n">TimeTicks</span> <span class="n">type</span> <span class="n">represents</span> <span class="n">a</span> <span class="n">non</span><span class="o">-</span><span class="n">negative</span> <span class="n">integer</span> <span class="n">which</span> <span class="n">represents</span>
+<span class="n">the</span> <span class="n">time</span><span class="p">,</span> <span class="n">modulo</span> <span class="mi">2</span><span class="o">^</span><span class="mi">32</span> <span class="p">(</span><span class="mi">4294967296</span> <span class="n">decimal</span><span class="p">),</span> <span class="n">in</span> <span class="n">hundredths</span> <span class="n">of</span> <span class="n">a</span> <span class="n">second</span>
+<span class="n">between</span> <span class="n">two</span> <span class="n">epochs</span><span class="p">.</span>  <span class="n">When</span> <span class="n">objects</span> <span class="n">are</span> <span class="n">defined</span> <span class="n">which</span> <span class="n">use</span> <span class="n">this</span> <span class="n">ASN</span><span class="mf">.1</span>
+<span class="n">type</span><span class="p">,</span> <span class="n">the</span> <span class="n">description</span> <span class="n">of</span> <span class="n">the</span> <span class="n">object</span> <span class="n">identifies</span> <span class="n">both</span> <span class="n">of</span> <span class="n">the</span> <span class="n">reference</span>
+<span class="n">epochs</span><span class="p">.</span>
+
+<span class="n">For</span> <span class="n">example</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="n">defines</span> <span class="n">the</span> <span class="n">TimeStamp</span> <span class="n">textual</span> <span class="n">convention</span> <span class="n">which</span> <span class="n">is</span>
+<span class="n">based</span> <span class="n">on</span> <span class="n">the</span> <span class="n">TimeTicks</span> <span class="n">type</span><span class="p">.</span>  <span class="n">With</span> <span class="n">a</span> <span class="n">TimeStamp</span><span class="p">,</span> <span class="n">the</span> <span class="n">first</span> <span class="n">reference</span>
+<span class="n">epoch</span> <span class="n">is</span> <span class="n">defined</span> <span class="n">as</span> <span class="n">the</span> <span class="n">time</span> <span class="n">when</span> <span class="n">sysUpTime</span> <span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="n">was</span> <span class="n">zero</span><span class="p">,</span> <span class="n">and</span> <span class="n">the</span>
+<span class="n">second</span> <span class="n">reference</span> <span class="n">epoch</span> <span class="n">is</span> <span class="n">defined</span> <span class="n">as</span> <span class="n">the</span> <span class="n">current</span> <span class="n">value</span> <span class="n">of</span> <span class="n">sysUpTime</span><span class="p">.</span>
+
+<span class="n">The</span> <span class="n">TimeTicks</span> <span class="n">type</span> <span class="n">may</span> <span class="n">not</span> <span class="n">be</span> <span class="n">sub</span><span class="o">-</span><span class="n">typed</span><span class="p">.</span>
+</pre></div>
+
+
+<p>再看看这个
+<a href="http://tools.ietf.org/html/rfc2578#section-7.1.6">Counter32</a></p>
+<div class="highlight"><pre><span class="mf">7.1.6</span><span class="p">.</span>  <span class="n">Counter32</span>
+
+   <span class="n">The</span> <span class="n">Counter32</span> <span class="n">type</span> <span class="n">represents</span> <span class="n">a</span> <span class="n">non</span><span class="o">-</span><span class="n">negative</span> <span class="n">integer</span> <span class="n">which</span>
+   <span class="n">monotonically</span> <span class="n">increases</span> <span class="n">until</span> <span class="n">it</span> <span class="n">reaches</span> <span class="n">a</span> <span class="n">maximum</span> <span class="n">value</span> <span class="n">of</span> <span class="mi">2</span><span class="o">^</span><span class="mi">32</span><span class="o">-</span><span class="mi">1</span>
+   <span class="p">(</span><span class="mi">4294967295</span> <span class="n">decimal</span><span class="p">),</span> <span class="n">when</span> <span class="n">it</span> <span class="n">wraps</span> <span class="n">around</span> <span class="n">and</span> <span class="n">starts</span> <span class="n">increasing</span>
+   <span class="n">again</span> <span class="n">from</span> <span class="n">zero</span><span class="p">.</span>
+
+   <span class="n">Counters</span> <span class="n">have</span> <span class="n">no</span> <span class="n">defined</span> <span class="s">&quot;initial&quot;</span> <span class="n">value</span><span class="p">,</span> <span class="n">and</span> <span class="n">thus</span><span class="p">,</span> <span class="n">a</span> <span class="n">single</span> <span class="n">value</span> <span class="n">of</span>
+   <span class="n">a</span> <span class="n">Counter</span> <span class="n">has</span> <span class="p">(</span><span class="n">in</span> <span class="n">general</span><span class="p">)</span> <span class="n">no</span> <span class="n">information</span> <span class="n">content</span><span class="p">.</span>  <span class="n">Discontinuities</span>
+   <span class="n">in</span> <span class="n">the</span> <span class="n">monotonically</span> <span class="n">increasing</span> <span class="n">value</span> <span class="n">normally</span> <span class="n">occur</span> <span class="n">at</span> <span class="n">re</span><span class="o">-</span>
+   <span class="n">initialization</span> <span class="n">of</span> <span class="n">the</span> <span class="n">management</span> <span class="n">system</span><span class="p">,</span> <span class="n">and</span> <span class="n">at</span> <span class="n">other</span> <span class="n">times</span> <span class="n">as</span>
+   <span class="n">specified</span> <span class="n">in</span> <span class="n">the</span> <span class="n">description</span> <span class="n">of</span> <span class="n">an</span> <span class="n">object</span><span class="o">-</span><span class="n">type</span> <span class="n">using</span> <span class="n">this</span> <span class="n">ASN</span><span class="mf">.1</span> <span class="n">type</span><span class="p">.</span>
+   <span class="n">If</span> <span class="n">such</span> <span class="n">other</span> <span class="n">times</span> <span class="n">can</span> <span class="n">occur</span><span class="p">,</span> <span class="k">for</span> <span class="n">example</span><span class="p">,</span> <span class="n">the</span> <span class="n">creation</span> <span class="n">of</span> <span class="n">an</span> <span class="n">object</span>
+   <span class="n">instance</span> <span class="n">at</span> <span class="n">times</span> <span class="n">other</span> <span class="n">than</span> <span class="n">re</span><span class="o">-</span><span class="n">initialization</span><span class="p">,</span> <span class="n">then</span> <span class="n">a</span> <span class="n">corresponding</span>
+   <span class="n">object</span> <span class="n">should</span> <span class="n">be</span> <span class="n">defined</span><span class="p">,</span> <span class="n">with</span> <span class="n">an</span> <span class="n">appropriate</span> <span class="n">SYNTAX</span> <span class="n">clause</span><span class="p">,</span> <span class="n">to</span>
+   <span class="n">indicate</span> <span class="n">the</span> <span class="n">last</span> <span class="n">discontinuity</span><span class="p">.</span>  <span class="n">Examples</span> <span class="n">of</span> <span class="n">appropriate</span> <span class="n">SYNTAX</span>
+   <span class="n">clause</span> <span class="n">include</span><span class="o">:</span>  <span class="n">TimeStamp</span> <span class="p">(</span><span class="n">a</span> <span class="n">textual</span> <span class="n">convention</span> <span class="n">defined</span> <span class="n">in</span> <span class="p">[</span><span class="mi">3</span><span class="p">]),</span>
+   <span class="n">DateAndTime</span> <span class="p">(</span><span class="n">another</span> <span class="n">textual</span> <span class="n">convention</span> <span class="n">from</span> <span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="n">or</span> <span class="n">TimeTicks</span><span class="p">.</span>
+
+   <span class="n">The</span> <span class="n">value</span> <span class="n">of</span> <span class="n">the</span> <span class="n">MAX</span><span class="o">-</span><span class="n">ACCESS</span> <span class="n">clause</span> <span class="k">for</span> <span class="n">objects</span> <span class="n">with</span> <span class="n">a</span> <span class="n">SYNTAX</span> <span class="n">clause</span>
+   <span class="n">value</span> <span class="n">of</span> <span class="n">Counter32</span> <span class="n">is</span> <span class="n">either</span> <span class="s">&quot;read-only&quot;</span> <span class="n">or</span> <span class="s">&quot;accessible-for-notify&quot;</span><span class="p">.</span>
+
+   <span class="n">A</span> <span class="n">DEFVAL</span> <span class="n">clause</span> <span class="n">is</span> <span class="n">not</span> <span class="n">allowed</span> <span class="k">for</span> <span class="n">objects</span> <span class="n">with</span> <span class="n">a</span> <span class="n">SYNTAX</span> <span class="n">clause</span> <span class="n">value</span>
+   <span class="n">of</span> <span class="n">Counter32</span><span class="p">.</span>
+</pre></div>
+
+
+<p>原来这是人家标准里定义好的，不是Bug。该值增长到2^32会自动重置为0，然后重新开始计数。害我瞎忙活一场。说到底还是功力不够。</p>
+<hr />
+<p>Update:
+写这篇文章的时候，查到对于这个问题，<a href="https://supportforums.cisco.com/discussion/10349561/snmp-uptime#573246">官方论坛</a>有进一步的讨论。</p><p>There are <a href="http://Alex-Hou.github.io/oid.html.html#disqus_thread">comments</a>.</p>                </article>
+<p class="paginator">
+    Page 1 / 1
+</p>
+            </aside><!-- /#featured -->
+            </ol><!-- /#posts-list -->
+            </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                     Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>. Theme is using <a href="http://github.com/getpelican/pelican-themes" target="_blank">cebong</a>.
+                </address><!-- /#about -->
+
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'icantfindone';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

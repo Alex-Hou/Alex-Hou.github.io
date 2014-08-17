@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Alex-Hou's Blog</title><link href="http://Alex-Hou.github.io/" rel="alternate"></link><link href="http://Alex-Hou.github.io/feeds%5Calex-hou.atom.xml" rel="self"></link><id>http://Alex-Hou.github.io/</id><updated>2014-08-17T16:43:00+08:00</updated><entry><title>一个OID的小问题</title><link href="http://Alex-Hou.github.io/oid.html.html" rel="alternate"></link><updated>2014-08-17T16:43:00+08:00</updated><author><name>Alex-Hou</name></author><id>tag:Alex-Hou.github.io,2014-08-17:oid.html.html</id><summary type="html">&lt;p&gt;最近工作中一项任务涉及到使用SNMP协议获取网络设备的启动时间。一开始，这只是个简单的体力劳动：联系厂商-&amp;gt;索要相关OID-&amp;gt;测试-&amp;gt;反馈。本以为一下午就可以搞定的事情，因为测试的时候发现了“神奇的问题”而拖了两三天。这里简单记录一下探索的过程。&lt;/p&gt;
+&lt;h3&gt;1. 问题描述：&lt;/h3&gt;
+&lt;p&gt;按照&lt;a href="http://tools.cisco.com/Support/SNMP/do/BrowseOID.do" title="官方网站查询"&gt;官方网站查询&lt;/a&gt;结果，Cisco 各系列IOS路由器、交换机的sysUpTime OID均为:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Object&lt;/td&gt;
+&lt;td&gt;sysUpTime&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;OID&lt;/td&gt;
+&lt;td&gt;1.3.6.1.2.1.1.3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Type&lt;/td&gt;
+&lt;td&gt;TimeTicks&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Permission&lt;/td&gt;
+&lt;td&gt;read-only&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;MIB&lt;/td&gt;
+&lt;td&gt;SNMPv2-MIB&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;使用SNMP工具测试一台最近上线的设备，通过该OID取到的值与登录设备show version看到的UpTime一致。原本事情到这里就结束了，但是不知为何一时鬼迷心窍又挑了一台前几年上线的6509进行测试。一看结果：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;sysUpTime.0 = Timeticks: (254716234) 29 days, 11:32:42.34&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;瞬间傻眼了。&lt;/p&gt;
+&lt;h3&gt;2. 排错过程&lt;/h3&gt;
+&lt;p&gt;发现问题以后，脑海里第一反应是：OID有问题，也许是取到了另一个时间，比如配置变更时间之类。但是查了我能想到的能查到的所有关于时间的值以后，发现没一个能跟上面那哥们长得一样的。
+再仔细看一下，官网给出的MIB为SNMPv2-MIB : &lt;a href="http://tools.ietf.org/html/rfc3418"&gt;RFC3418&lt;/a&gt;所定义的标准OID，值类型为"TimeTicks"&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sysUpTime&lt;/span&gt; &lt;span class="n"&gt;OBJECT&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;TYPE&lt;/span&gt;
+&lt;span class="n"&gt;SYNTAX&lt;/span&gt;      &lt;span class="n"&gt;TimeTicks&lt;/span&gt;
+   &lt;span class="n"&gt;MAX&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ACCESS&lt;/span&gt;  &lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;only&lt;/span&gt;
+   &lt;span class="n"&gt;STATUS&lt;/span&gt;      &lt;span class="n"&gt;current&lt;/span&gt;
+   &lt;span class="n"&gt;DESCRIPTION&lt;/span&gt;
+           &lt;span class="s"&gt;&amp;quot;The time (in hundredths of a second) since the&lt;/span&gt;
+           &lt;span class="n"&gt;network&lt;/span&gt; &lt;span class="n"&gt;management&lt;/span&gt; &lt;span class="n"&gt;portion&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;system&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;last&lt;/span&gt;
+           &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;initialized&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;
+   &lt;span class="o"&gt;::=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="n"&gt;system&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;不知道精确到1%秒是出于什么考虑。不过好像有点眉目了——这货是个无符号整数嘛，小时候老师教育我们__拿到数据要算范围，一切没有最大值最小值精确度的计算机表示都是耍流氓__。来大概猜一下：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://latex.codecogs.com/gif.latex?\frac{2^{32}}{100\times&amp;amp;space;24\times&amp;amp;space;60&amp;amp;space;\times&amp;amp;space;60}=497.1026963=497&amp;amp;space;days,02:27:53" /&gt;&lt;/p&gt;
+&lt;p&gt;加上刚才的29天，show version……&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;uptime&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="n"&gt;year&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;23&lt;/span&gt; &lt;span class="n"&gt;weeks&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;13&lt;/span&gt; &lt;span class="n"&gt;hours&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;32&lt;/span&gt; &lt;span class="n"&gt;minutes&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;365+23*7，日子好像差不多了，时间怎么不对？
+左思右想……
+这不就是敲这两条命令的时间差么！&lt;/p&gt;
+&lt;h3&gt;3.知其所以然&lt;/h3&gt;
+&lt;p&gt;子曾经曰：外事不决问谷哥。其实在网络这块，RFC才是你最后的堡垒，究极的大杀器。
+&lt;a href="http://tools.ietf.org/html/rfc2578#section-7.1.8"&gt;TimeTicks&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="mf"&gt;7.1.8&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;  &lt;span class="n"&gt;TimeTicks&lt;/span&gt;
+&lt;span class="n"&gt;The&lt;/span&gt; &lt;span class="n"&gt;TimeTicks&lt;/span&gt; &lt;span class="n"&gt;type&lt;/span&gt; &lt;span class="n"&gt;represents&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;non&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;negative&lt;/span&gt; &lt;span class="n"&gt;integer&lt;/span&gt; &lt;span class="n"&gt;which&lt;/span&gt; &lt;span class="n"&gt;represents&lt;/span&gt;
+&lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;modulo&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;^&lt;/span&gt;&lt;span class="mi"&gt;32&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;4294967296&lt;/span&gt; &lt;span class="n"&gt;decimal&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="n"&gt;hundredths&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;second&lt;/span&gt;
+&lt;span class="n"&gt;between&lt;/span&gt; &lt;span class="n"&gt;two&lt;/span&gt; &lt;span class="n"&gt;epochs&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;  &lt;span class="n"&gt;When&lt;/span&gt; &lt;span class="n"&gt;objects&lt;/span&gt; &lt;span class="n"&gt;are&lt;/span&gt; &lt;span class="n"&gt;defined&lt;/span&gt; &lt;span class="n"&gt;which&lt;/span&gt; &lt;span class="n"&gt;use&lt;/span&gt; &lt;span class="n"&gt;this&lt;/span&gt; &lt;span class="n"&gt;ASN&lt;/span&gt;&lt;span class="mf"&gt;.1&lt;/span&gt;
+&lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;object&lt;/span&gt; &lt;span class="n"&gt;identifies&lt;/span&gt; &lt;span class="n"&gt;both&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;reference&lt;/span&gt;
+&lt;span class="n"&gt;epochs&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+
+&lt;span class="n"&gt;For&lt;/span&gt; &lt;span class="n"&gt;example&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="n"&gt;defines&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;TimeStamp&lt;/span&gt; &lt;span class="n"&gt;textual&lt;/span&gt; &lt;span class="n"&gt;convention&lt;/span&gt; &lt;span class="n"&gt;which&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt;
+&lt;span class="n"&gt;based&lt;/span&gt; &lt;span class="n"&gt;on&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;TimeTicks&lt;/span&gt; &lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;  &lt;span class="n"&gt;With&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;TimeStamp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;first&lt;/span&gt; &lt;span class="n"&gt;reference&lt;/span&gt;
+&lt;span class="n"&gt;epoch&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;defined&lt;/span&gt; &lt;span class="n"&gt;as&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt; &lt;span class="n"&gt;when&lt;/span&gt; &lt;span class="n"&gt;sysUpTime&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;zero&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;and&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt;
+&lt;span class="n"&gt;second&lt;/span&gt; &lt;span class="n"&gt;reference&lt;/span&gt; &lt;span class="n"&gt;epoch&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;defined&lt;/span&gt; &lt;span class="n"&gt;as&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;current&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;sysUpTime&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+
+&lt;span class="n"&gt;The&lt;/span&gt; &lt;span class="n"&gt;TimeTicks&lt;/span&gt; &lt;span class="n"&gt;type&lt;/span&gt; &lt;span class="n"&gt;may&lt;/span&gt; &lt;span class="n"&gt;not&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="n"&gt;sub&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;typed&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;再看看这个
+&lt;a href="http://tools.ietf.org/html/rfc2578#section-7.1.6"&gt;Counter32&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="mf"&gt;7.1.6&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;  &lt;span class="n"&gt;Counter32&lt;/span&gt;
+
+   &lt;span class="n"&gt;The&lt;/span&gt; &lt;span class="n"&gt;Counter32&lt;/span&gt; &lt;span class="n"&gt;type&lt;/span&gt; &lt;span class="n"&gt;represents&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;non&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;negative&lt;/span&gt; &lt;span class="n"&gt;integer&lt;/span&gt; &lt;span class="n"&gt;which&lt;/span&gt;
+   &lt;span class="n"&gt;monotonically&lt;/span&gt; &lt;span class="n"&gt;increases&lt;/span&gt; &lt;span class="n"&gt;until&lt;/span&gt; &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="n"&gt;reaches&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;maximum&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;^&lt;/span&gt;&lt;span class="mi"&gt;32&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
+   &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;4294967295&lt;/span&gt; &lt;span class="n"&gt;decimal&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;when&lt;/span&gt; &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="n"&gt;wraps&lt;/span&gt; &lt;span class="n"&gt;around&lt;/span&gt; &lt;span class="n"&gt;and&lt;/span&gt; &lt;span class="n"&gt;starts&lt;/span&gt; &lt;span class="n"&gt;increasing&lt;/span&gt;
+   &lt;span class="n"&gt;again&lt;/span&gt; &lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="n"&gt;zero&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+
+   &lt;span class="n"&gt;Counters&lt;/span&gt; &lt;span class="n"&gt;have&lt;/span&gt; &lt;span class="n"&gt;no&lt;/span&gt; &lt;span class="n"&gt;defined&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;initial&amp;quot;&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;and&lt;/span&gt; &lt;span class="n"&gt;thus&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;single&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt;
+   &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;Counter&lt;/span&gt; &lt;span class="n"&gt;has&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="n"&gt;general&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;no&lt;/span&gt; &lt;span class="n"&gt;information&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;  &lt;span class="n"&gt;Discontinuities&lt;/span&gt;
+   &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;monotonically&lt;/span&gt; &lt;span class="n"&gt;increasing&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="n"&gt;normally&lt;/span&gt; &lt;span class="n"&gt;occur&lt;/span&gt; &lt;span class="n"&gt;at&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;
+   &lt;span class="n"&gt;initialization&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;management&lt;/span&gt; &lt;span class="n"&gt;system&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;and&lt;/span&gt; &lt;span class="n"&gt;at&lt;/span&gt; &lt;span class="n"&gt;other&lt;/span&gt; &lt;span class="n"&gt;times&lt;/span&gt; &lt;span class="n"&gt;as&lt;/span&gt;
+   &lt;span class="n"&gt;specified&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;an&lt;/span&gt; &lt;span class="n"&gt;object&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;type&lt;/span&gt; &lt;span class="n"&gt;using&lt;/span&gt; &lt;span class="n"&gt;this&lt;/span&gt; &lt;span class="n"&gt;ASN&lt;/span&gt;&lt;span class="mf"&gt;.1&lt;/span&gt; &lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+   &lt;span class="n"&gt;If&lt;/span&gt; &lt;span class="n"&gt;such&lt;/span&gt; &lt;span class="n"&gt;other&lt;/span&gt; &lt;span class="n"&gt;times&lt;/span&gt; &lt;span class="n"&gt;can&lt;/span&gt; &lt;span class="n"&gt;occur&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;example&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;creation&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;an&lt;/span&gt; &lt;span class="n"&gt;object&lt;/span&gt;
+   &lt;span class="n"&gt;instance&lt;/span&gt; &lt;span class="n"&gt;at&lt;/span&gt; &lt;span class="n"&gt;times&lt;/span&gt; &lt;span class="n"&gt;other&lt;/span&gt; &lt;span class="n"&gt;than&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;initialization&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;then&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;corresponding&lt;/span&gt;
+   &lt;span class="n"&gt;object&lt;/span&gt; &lt;span class="n"&gt;should&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="n"&gt;defined&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;with&lt;/span&gt; &lt;span class="n"&gt;an&lt;/span&gt; &lt;span class="n"&gt;appropriate&lt;/span&gt; &lt;span class="n"&gt;SYNTAX&lt;/span&gt; &lt;span class="n"&gt;clause&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt;
+   &lt;span class="n"&gt;indicate&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;last&lt;/span&gt; &lt;span class="n"&gt;discontinuity&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;  &lt;span class="n"&gt;Examples&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;appropriate&lt;/span&gt; &lt;span class="n"&gt;SYNTAX&lt;/span&gt;
+   &lt;span class="n"&gt;clause&lt;/span&gt; &lt;span class="n"&gt;include&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;  &lt;span class="n"&gt;TimeStamp&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;textual&lt;/span&gt; &lt;span class="n"&gt;convention&lt;/span&gt; &lt;span class="n"&gt;defined&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt;
+   &lt;span class="n"&gt;DateAndTime&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;another&lt;/span&gt; &lt;span class="n"&gt;textual&lt;/span&gt; &lt;span class="n"&gt;convention&lt;/span&gt; &lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="n"&gt;or&lt;/span&gt; &lt;span class="n"&gt;TimeTicks&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+
+   &lt;span class="n"&gt;The&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;MAX&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ACCESS&lt;/span&gt; &lt;span class="n"&gt;clause&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;objects&lt;/span&gt; &lt;span class="n"&gt;with&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;SYNTAX&lt;/span&gt; &lt;span class="n"&gt;clause&lt;/span&gt;
+   &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;Counter32&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;either&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;read-only&amp;quot;&lt;/span&gt; &lt;span class="n"&gt;or&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;accessible-for-notify&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+
+   &lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="n"&gt;DEFVAL&lt;/span&gt; &lt;span class="n"&gt;clause&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;not&lt;/span&gt; &lt;span class="n"&gt;allowed&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;objects&lt;/span&gt; &lt;span class="n"&gt;with&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;SYNTAX&lt;/span&gt; &lt;span class="n"&gt;clause&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;
+   &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;Counter32&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;原来这是人家标准里定义好的，不是Bug。该值增长到2^32会自动重置为0，然后重新开始计数。害我瞎忙活一场。说到底还是功力不够。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;Update:
+写这篇文章的时候，查到对于这个问题，&lt;a href="https://supportforums.cisco.com/discussion/10349561/snmp-uptime#573246"&gt;官方论坛&lt;/a&gt;有进一步的讨论。&lt;/p&gt;</summary><category term="oid"></category><category term="cisco"></category><category term=""></category></entry></feed>
