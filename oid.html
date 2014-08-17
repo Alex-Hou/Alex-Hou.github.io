@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <title>Alex-Hou's Blog - 排障</title>
+        <title>一个OID的小问题</title>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="http://Alex-Hou.github.io/theme/css/main.css" type="text/css" />
 
@@ -24,17 +24,20 @@
                     <a href="http://Alex-Hou.github.io/category/pai-zhang.html">排障</a>&nbsp;
                 </nav>
         </header><!-- /#banner -->
-        
-        
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="oid.html" rel="bookmark"
+           title="Permalink to 一个OID的小问题">一个OID的小问题</a></h1>
+    </header>
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="http://Alex-Hou.github.io/oid.html">一个OID的小问题</a></h1> 
+    <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2014-08-17T16:43:00">
                 周日 17 八月 2014
         </abbr>
-<p>tags: <a href="http://Alex-Hou.github.io/tag/oid.html">oid</a><a href="http://Alex-Hou.github.io/tag/cisco.html">cisco</a><a href="http://Alex-Hou.github.io/tag/.html"></a></p></footer><!-- /.post-info --><p>最近工作中一项任务涉及到使用SNMP协议获取网络设备的启动时间。一开始，这只是个简单的体力劳动：联系厂商-&gt;索要相关OID-&gt;测试-&gt;反馈。本以为一下午就可以搞定的事情，因为测试的时候发现了“神奇的问题”而拖了两三天。这里简单记录一下探索的过程。</p>
+<p>tags: <a href="http://Alex-Hou.github.io/tag/oid.html">oid</a><a href="http://Alex-Hou.github.io/tag/cisco.html">cisco</a><a href="http://Alex-Hou.github.io/tag/.html"></a></p></footer><!-- /.post-info -->      <p>最近工作中一项任务涉及到使用SNMP协议获取网络设备的启动时间。一开始，这只是个简单的体力劳动：联系厂商-&gt;索要相关OID-&gt;测试-&gt;反馈。本以为一下午就可以搞定的事情，因为测试的时候发现了“神奇的问题”而拖了两三天。这里简单记录一下探索的过程。</p>
 <h3>1. 问题描述：</h3>
 <p>按照<a href="http://tools.cisco.com/Support/SNMP/do/BrowseOID.do" title="官方网站查询">官方网站查询</a>结果，Cisco 各系列IOS路由器、交换机的sysUpTime OID均为:</p>
 <blockquote>
@@ -150,13 +153,23 @@
 <p>原来这是人家标准里定义好的，不是Bug。该值增长到2^32会自动重置为0，然后重新开始计数。害我瞎忙活一场。说到底还是功力不够。</p>
 <hr />
 <p>Update:
-写这篇文章的时候，查到对于这个问题，<a href="https://supportforums.cisco.com/discussion/10349561/snmp-uptime#573246">官方论坛</a>有进一步的讨论。</p><p>There are <a href="http://Alex-Hou.github.io/oid.html#disqus_thread">comments</a>.</p>                </article>
-<p class="paginator">
-    Page 1 / 1
-</p>
-            </aside><!-- /#featured -->
-            </ol><!-- /#posts-list -->
-            </section><!-- /#content -->
+写这篇文章的时候，查到对于这个问题，<a href="https://supportforums.cisco.com/discussion/10349561/snmp-uptime#573246">官方论坛</a>有进一步的讨论。</p>
+    </div><!-- /.entry-content -->
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_identifier = "oid.html";
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://icantfindone.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+    </div>
+
+  </article>
+</section>
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>blogroll</h2>
