@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>不过满腹</title><link href="/" rel="alternate"></link><link href="/feeds/alex-hou.atom.xml" rel="self"></link><id>/</id><updated>2016-07-27T14:37:00+08:00</updated><entry><title>Python 不推荐的用法</title><link href="/pages/2016/07/27/my-test-post/" rel="alternate"></link><published>2016-07-27T14:37:00+08:00</published><author><name>Alex Hou</name></author><id>tag:,2016-07-27:pages/2016/07/27/my-test-post/</id><summary type="html">&lt;p&gt;对于同一件事情，Python 有很多灵活的手段可以实现。但是哪些是不那么好的呢……&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>不过满腹</title><link href="/" rel="alternate"></link><link href="/feeds/alex-hou.atom.xml" rel="self"></link><id>/</id><updated>2016-07-28T11:46:00+08:00</updated><entry><title>使用 docker-pelican, github.io 编写博客</title><link href="/pages/2016/07/28/using-docker-pelican/" rel="alternate"></link><published>2016-07-28T11:46:00+08:00</published><author><name>Alex Hou</name></author><id>tag:,2016-07-28:pages/2016/07/28/using-docker-pelican/</id><summary type="html">&lt;p&gt;本文介绍在Linux下使用docker-pelican快速搭建一个可用的博客编写环境。&lt;/p&gt;
+&lt;h1&gt;1.安装docker, git&lt;/h1&gt;
+&lt;h1&gt;2.克隆docker-pelican&lt;/h1&gt;
+&lt;h1&gt;3.开通github.io个人页&lt;/h1&gt;
+&lt;h1&gt;4.&lt;/h1&gt;</summary><category term="Docker"></category><category term="Pelican"></category></entry><entry><title>Python 不推荐的用法</title><link href="/pages/2016/07/27/python-bad-usages/" rel="alternate"></link><published>2016-07-27T14:37:00+08:00</published><author><name>Alex Hou</name></author><id>tag:,2016-07-27:pages/2016/07/27/python-bad-usages/</id><summary type="html">&lt;p&gt;对于同一件事情，Python 有很多灵活的手段可以实现。但是哪些是不那么好的呢……&lt;/p&gt;
 &lt;h1&gt;1.导入&lt;/h1&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;module&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -121,7 +125,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;使用反斜线续行，若行尾有空格，会导致续行失败，出现难以排查的问题。&lt;/p&gt;</summary><category term="python"></category></entry><entry><title>一个OID的小问题</title><link href="/pages/2014/08/17/oid/" rel="alternate"></link><published>2014-08-17T16:43:00+08:00</published><author><name>Alex-Hou</name></author><id>tag:,2014-08-17:pages/2014/08/17/oid/</id><summary type="html">&lt;p&gt;最近工作中一项任务涉及到使用SNMP协议获取网络设备的启动时间。一开始，这只是个简单的体力劳动：联系厂商-&amp;gt;索要相关OID-&amp;gt;测试-&amp;gt;反馈。本以为一下午就可以搞定的事情，因为测试的时候发现了“神奇的问题”而拖了两三天。这里简单记录一下探索的过程。&lt;/p&gt;
+&lt;p&gt;使用反斜线续行，若行尾有空格，会导致续行失败，出现难以排查的问题。&lt;/p&gt;</summary><category term="python"></category></entry><entry><title>一个OID的小问题</title><link href="/pages/2014/08/17/oid/" rel="alternate"></link><published>2014-08-17T16:43:00+08:00</published><author><name>Alex Hou</name></author><id>tag:,2014-08-17:pages/2014/08/17/oid/</id><summary type="html">&lt;p&gt;最近工作中一项任务涉及到使用SNMP协议获取网络设备的启动时间。一开始，这只是个简单的体力劳动：联系厂商-&amp;gt;索要相关OID-&amp;gt;测试-&amp;gt;反馈。本以为一下午就可以搞定的事情，因为测试的时候发现了“神奇的问题”而拖了两三天。这里简单记录一下探索的过程。&lt;/p&gt;
 &lt;h3&gt;1. 问题描述：&lt;/h3&gt;
 &lt;p&gt;按照&lt;a href="http://tools.cisco.com/Support/SNMP/do/BrowseOID.do" title="官方网站查询"&gt;官方网站查询&lt;/a&gt;结果，Cisco 各系列IOS路由器、交换机的sysUpTime OID均为:&lt;/p&gt;
 &lt;blockquote&gt;

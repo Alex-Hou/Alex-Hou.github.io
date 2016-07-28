@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>不过满腹</title><link>/</link><description></description><lastBuildDate>Wed, 27 Jul 2016 14:37:00 +0800</lastBuildDate><item><title>Python 不推荐的用法</title><link>/pages/2016/07/27/my-test-post/</link><description>&lt;p&gt;对于同一件事情，Python 有很多灵活的手段可以实现。但是哪些是不那么好的呢……&lt;/p&gt;
+<rss version="2.0"><channel><title>不过满腹</title><link>/</link><description></description><lastBuildDate>Thu, 28 Jul 2016 11:46:00 +0800</lastBuildDate><item><title>使用 docker-pelican, github.io 编写博客</title><link>/pages/2016/07/28/using-docker-pelican/</link><description>&lt;p&gt;本文介绍在Linux下使用docker-pelican快速搭建一个可用的博客编写环境。&lt;/p&gt;
+&lt;h1&gt;1.安装docker, git&lt;/h1&gt;
+&lt;h1&gt;2.克隆docker-pelican&lt;/h1&gt;
+&lt;h1&gt;3.开通github.io个人页&lt;/h1&gt;
+&lt;h1&gt;4.&lt;/h1&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Alex Hou</dc:creator><pubDate>Thu, 28 Jul 2016 11:46:00 +0800</pubDate><guid isPermaLink="false">tag:,2016-07-28:pages/2016/07/28/using-docker-pelican/</guid><category>Docker</category><category>Pelican</category></item><item><title>Python 不推荐的用法</title><link>/pages/2016/07/27/python-bad-usages/</link><description>&lt;p&gt;对于同一件事情，Python 有很多灵活的手段可以实现。但是哪些是不那么好的呢……&lt;/p&gt;
 &lt;h1&gt;1.导入&lt;/h1&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;module&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -121,7 +125,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;使用反斜线续行，若行尾有空格，会导致续行失败，出现难以排查的问题。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Alex Hou</dc:creator><pubDate>Wed, 27 Jul 2016 14:37:00 +0800</pubDate><guid isPermaLink="false">tag:,2016-07-27:pages/2016/07/27/my-test-post/</guid><category>python</category></item><item><title>一个OID的小问题</title><link>/pages/2014/08/17/oid/</link><description>&lt;p&gt;最近工作中一项任务涉及到使用SNMP协议获取网络设备的启动时间。一开始，这只是个简单的体力劳动：联系厂商-&amp;gt;索要相关OID-&amp;gt;测试-&amp;gt;反馈。本以为一下午就可以搞定的事情，因为测试的时候发现了“神奇的问题”而拖了两三天。这里简单记录一下探索的过程。&lt;/p&gt;
+&lt;p&gt;使用反斜线续行，若行尾有空格，会导致续行失败，出现难以排查的问题。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Alex Hou</dc:creator><pubDate>Wed, 27 Jul 2016 14:37:00 +0800</pubDate><guid isPermaLink="false">tag:,2016-07-27:pages/2016/07/27/python-bad-usages/</guid><category>python</category></item><item><title>一个OID的小问题</title><link>/pages/2014/08/17/oid/</link><description>&lt;p&gt;最近工作中一项任务涉及到使用SNMP协议获取网络设备的启动时间。一开始，这只是个简单的体力劳动：联系厂商-&amp;gt;索要相关OID-&amp;gt;测试-&amp;gt;反馈。本以为一下午就可以搞定的事情，因为测试的时候发现了“神奇的问题”而拖了两三天。这里简单记录一下探索的过程。&lt;/p&gt;
 &lt;h3&gt;1. 问题描述：&lt;/h3&gt;
 &lt;p&gt;按照&lt;a href="http://tools.cisco.com/Support/SNMP/do/BrowseOID.do" title="官方网站查询"&gt;官方网站查询&lt;/a&gt;结果，Cisco 各系列IOS路由器、交换机的sysUpTime OID均为:&lt;/p&gt;
 &lt;blockquote&gt;
@@ -237,4 +241,4 @@ The TimeTicks type may not be sub-typed.
 &lt;p&gt;原来这是人家标准里定义好的，不是Bug。该值增长到2^32会自动重置为0，然后重新开始计数。害我瞎忙活一场。说到底还是功力不够。&lt;/p&gt;
 &lt;hr /&gt;
 &lt;p&gt;Update:
-写这篇文章的时候，查到对于这个问题，&lt;a href="https://supportforums.cisco.com/discussion/10349561/snmp-uptime#573246"&gt;官方论坛&lt;/a&gt;有进一步的讨论。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Alex-Hou</dc:creator><pubDate>Sun, 17 Aug 2014 16:43:00 +0800</pubDate><guid isPermaLink="false">tag:,2014-08-17:pages/2014/08/17/oid/</guid><category>oid</category><category>cisco</category></item></channel></rss>
+写这篇文章的时候，查到对于这个问题，&lt;a href="https://supportforums.cisco.com/discussion/10349561/snmp-uptime#573246"&gt;官方论坛&lt;/a&gt;有进一步的讨论。&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Alex Hou</dc:creator><pubDate>Sun, 17 Aug 2014 16:43:00 +0800</pubDate><guid isPermaLink="false">tag:,2014-08-17:pages/2014/08/17/oid/</guid><category>oid</category><category>cisco</category></item></channel></rss>
