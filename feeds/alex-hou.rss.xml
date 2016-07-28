@@ -1,8 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0"><channel><title>不过满腹</title><link>/</link><description></description><lastBuildDate>Thu, 28 Jul 2016 11:46:00 +0800</lastBuildDate><item><title>使用 docker-pelican, github.io 编写博客</title><link>/pages/2016/07/28/using-docker-pelican/</link><description>&lt;p&gt;本文介绍在Linux下使用docker-pelican快速搭建一个可用的博客编写环境。&lt;/p&gt;
 &lt;h1&gt;1.安装docker, git&lt;/h1&gt;
-&lt;h1&gt;2.克隆docker-pelican&lt;/h1&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo apt-get install docker.io 
+sudo apt-get install git
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;安装完毕docker后需要重启才能生效。
+git需要配置用户名、邮箱才能工作：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git config --global user.name &amp;quot;yourname&amp;quot;
+git config --global user.email &amp;quot;your@email.address&amp;quot;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;2.克隆&lt;a href="https://github.com/jderuere/docker-pelican"&gt;docker-pelican&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;这里主要参考docker-pelican GitHub主页的介绍。我个人没有fork这个repo，而是直接下载了。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone git@github.com:USERNAME/docker-pelican
+cd docker-pelican
+make docker-build
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然后，按照官网的介绍，修改作者、时区、语言、页面链接等等配置。
+接下来就可以试着启动了。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;make docker-run
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;默认配置下，访问localhost:8000即可。
+启动后，任何对content目录下文件的修改都会实时更新到output目录，刷新网页即可重新加载。
+按照以下模板写一个Hello World吧：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Title: 文章标题
+Date: 创建日期
+Modified: 修改日期
+Category: 文章分类，标志本文处于该分类下
+Tags: 文章标签，标志本文处于该标签下
+Slug: URL中该文章的链接地址
+Author: 作者
+Summary: 内容提要
+# Hello Wold!
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;保存为website/content/hello-world.md
+试完了别忘记关闭：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;make docker-kill
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;h1&gt;3.开通github.io个人页&lt;/h1&gt;
+&lt;p&gt;打开&lt;a href="https://pages.github.com/"&gt;GitHub Pages&lt;/a&gt;或&lt;a href="http://guides.github.com/features/pages/"&gt;GitHub Pages 帮助页&lt;/a&gt;，内容已经很详尽了，下拉式向导，比Windows下安装软件还傻瓜化。
+开通后clone到website/output目录下&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone https://github.com/&amp;lt;yourname&amp;gt;/&amp;lt;yourname&amp;gt;.github.io.git output/
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;h1&gt;4.提交与推送&lt;/h1&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cd website/output
 git add ./*
@@ -16,7 +68,8 @@ Password for &amp;#39;https://&amp;lt;your@email.address&amp;gt;@github.com&amp;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Vola!&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Alex Hou</dc:creator><pubDate>Thu, 28 Jul 2016 11:46:00 +0800</pubDate><guid isPermaLink="false">tag:,2016-07-28:pages/2016/07/28/using-docker-pelican/</guid><category>Docker</category><category>Pelican</category></item><item><title>Python 不推荐的用法</title><link>/pages/2016/07/27/python-bad-usages/</link><description>&lt;p&gt;对于同一件事情，Python 有很多灵活的手段可以实现。但是哪些是不那么好的呢……&lt;/p&gt;
+&lt;p&gt;然后打开你的主页https://&lt;yourname&gt;.github.io
+Vola!&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Alex Hou</dc:creator><pubDate>Thu, 28 Jul 2016 11:46:00 +0800</pubDate><guid isPermaLink="false">tag:,2016-07-28:pages/2016/07/28/using-docker-pelican/</guid><category>Docker</category><category>Pelican</category></item><item><title>Python 不推荐的用法</title><link>/pages/2016/07/27/python-bad-usages/</link><description>&lt;p&gt;对于同一件事情，Python 有很多灵活的手段可以实现。但是哪些是不那么好的呢……&lt;/p&gt;
 &lt;h1&gt;1.导入&lt;/h1&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;module&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;

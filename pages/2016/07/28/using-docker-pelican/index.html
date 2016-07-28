@@ -64,8 +64,60 @@
             <div class="entry-content">
               <p>本文介绍在Linux下使用docker-pelican快速搭建一个可用的博客编写环境。</p>
 <h1>1.安装docker, git</h1>
-<h1>2.克隆docker-pelican</h1>
+<div class="highlight"><pre><span></span>sudo apt-get install docker.io 
+sudo apt-get install git
+</pre></div>
+
+
+<p>安装完毕docker后需要重启才能生效。
+git需要配置用户名、邮箱才能工作：</p>
+<div class="highlight"><pre><span></span>git config --global user.name &quot;yourname&quot;
+git config --global user.email &quot;your@email.address&quot;
+</pre></div>
+
+
+<h1>2.克隆<a href="https://github.com/jderuere/docker-pelican">docker-pelican</a></h1>
+<p>这里主要参考docker-pelican GitHub主页的介绍。我个人没有fork这个repo，而是直接下载了。</p>
+<div class="highlight"><pre><span></span>git clone git@github.com:USERNAME/docker-pelican
+cd docker-pelican
+make docker-build
+</pre></div>
+
+
+<p>然后，按照官网的介绍，修改作者、时区、语言、页面链接等等配置。
+接下来就可以试着启动了。</p>
+<div class="highlight"><pre><span></span>make docker-run
+</pre></div>
+
+
+<p>默认配置下，访问localhost:8000即可。
+启动后，任何对content目录下文件的修改都会实时更新到output目录，刷新网页即可重新加载。
+按照以下模板写一个Hello World吧：</p>
+<div class="highlight"><pre><span></span>Title: 文章标题
+Date: 创建日期
+Modified: 修改日期
+Category: 文章分类，标志本文处于该分类下
+Tags: 文章标签，标志本文处于该标签下
+Slug: URL中该文章的链接地址
+Author: 作者
+Summary: 内容提要
+# Hello Wold!
+</pre></div>
+
+
+<p>保存为website/content/hello-world.md
+试完了别忘记关闭：</p>
+<div class="highlight"><pre><span></span>make docker-kill
+</pre></div>
+
+
 <h1>3.开通github.io个人页</h1>
+<p>打开<a href="https://pages.github.com/">GitHub Pages</a>或<a href="http://guides.github.com/features/pages/">GitHub Pages 帮助页</a>，内容已经很详尽了，下拉式向导，比Windows下安装软件还傻瓜化。
+开通后clone到website/output目录下</p>
+<div class="highlight"><pre><span></span>git clone https://github.com/&lt;yourname&gt;/&lt;yourname&gt;.github.io.git output/
+</pre></div>
+
+
 <h1>4.提交与推送</h1>
 <div class="highlight"><pre><span></span>cd website/output
 git add ./*
@@ -79,7 +131,8 @@ Password for &#39;https://&lt;your@email.address&gt;@github.com&#39;:
 </pre></div>
 
 
-<p>Vola!</p>
+<p>然后打开你的主页https://<yourname>.github.io
+Vola!</p>
             </div><!-- /.entry-content -->
             <div class="comments">
               <h3>Comments</h3>
