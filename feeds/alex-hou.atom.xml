@@ -3,7 +3,20 @@
 &lt;h1&gt;1.安装docker, git&lt;/h1&gt;
 &lt;h1&gt;2.克隆docker-pelican&lt;/h1&gt;
 &lt;h1&gt;3.开通github.io个人页&lt;/h1&gt;
-&lt;h1&gt;4.&lt;/h1&gt;</summary><category term="Docker"></category><category term="Pelican"></category></entry><entry><title>Python 不推荐的用法</title><link href="/pages/2016/07/27/python-bad-usages/" rel="alternate"></link><published>2016-07-27T14:37:00+08:00</published><author><name>Alex Hou</name></author><id>tag:,2016-07-27:pages/2016/07/27/python-bad-usages/</id><summary type="html">&lt;p&gt;对于同一件事情，Python 有很多灵活的手段可以实现。但是哪些是不那么好的呢……&lt;/p&gt;
+&lt;h1&gt;4.提交与推送&lt;/h1&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cd website/output
+git add ./*
+git commit -a -m &amp;quot;Initial Release&amp;quot;
+# 此处引号内的内容是对每次commit的描述
+git push origin master 
+Username for &amp;#39;https://github.com&amp;#39;:
+# 输入Github用户名
+Password for &amp;#39;https://&amp;lt;your@email.address&amp;gt;@github.com&amp;#39;: 
+# 输入Github密码
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Vola!&lt;/p&gt;</summary><category term="Docker"></category><category term="Pelican"></category></entry><entry><title>Python 不推荐的用法</title><link href="/pages/2016/07/27/python-bad-usages/" rel="alternate"></link><published>2016-07-27T14:37:00+08:00</published><author><name>Alex Hou</name></author><id>tag:,2016-07-27:pages/2016/07/27/python-bad-usages/</id><summary type="html">&lt;p&gt;对于同一件事情，Python 有很多灵活的手段可以实现。但是哪些是不那么好的呢……&lt;/p&gt;
 &lt;h1&gt;1.导入&lt;/h1&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;module&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
