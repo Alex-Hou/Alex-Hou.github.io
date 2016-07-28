@@ -70,8 +70,8 @@ Password for &amp;#39;https://&amp;lt;your@email.address&amp;gt;@github.com&amp;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;然后打开你的主页https://&lt;yourname&gt;.github.io
-Vola!&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Alex Hou</dc:creator><pubDate>Thu, 28 Jul 2016 11:46:00 +0800</pubDate><guid isPermaLink="false">tag:,2016-07-28:pages/2016/07/28/using-docker-pelican/</guid><category>Docker</category><category>Pelican</category></item><item><title>Python 不推荐的用法</title><link>/pages/2016/07/27/python-bad-usages/</link><description>&lt;p&gt;对于同一件事情，Python 有很多灵活的手段可以实现。但是哪些是不那么好的呢……&lt;/p&gt;
+&lt;p&gt;然后打开你的主页&lt;code&gt;https://&amp;lt;yourname&amp;gt;.github.io&lt;/code&gt;&lt;/p&gt;
+&lt;h1&gt;Voilà&lt;/h1&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Alex Hou</dc:creator><pubDate>Thu, 28 Jul 2016 11:46:00 +0800</pubDate><guid isPermaLink="false">tag:,2016-07-28:pages/2016/07/28/using-docker-pelican/</guid><category>Docker</category><category>Pelican</category></item><item><title>Python 不推荐的用法</title><link>/pages/2016/07/27/python-bad-usages/</link><description>&lt;p&gt;对于同一件事情，Python 有很多灵活的手段可以实现。但是哪些是不那么好的呢……&lt;/p&gt;
 &lt;h1&gt;1.导入&lt;/h1&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;module&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;

@@ -70,8 +70,8 @@ Password for &amp;#39;https://&amp;lt;your@email.address&amp;gt;@github.com&amp;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;然后打开你的主页https://&lt;yourname&gt;.github.io
-Vola!&lt;/p&gt;</summary><category term="Docker"></category><category term="Pelican"></category></entry><entry><title>Python 不推荐的用法</title><link href="/pages/2016/07/27/python-bad-usages/" rel="alternate"></link><published>2016-07-27T14:37:00+08:00</published><author><name>Alex Hou</name></author><id>tag:,2016-07-27:pages/2016/07/27/python-bad-usages/</id><summary type="html">&lt;p&gt;对于同一件事情，Python 有很多灵活的手段可以实现。但是哪些是不那么好的呢……&lt;/p&gt;
+&lt;p&gt;然后打开你的主页&lt;code&gt;https://&amp;lt;yourname&amp;gt;.github.io&lt;/code&gt;&lt;/p&gt;
+&lt;h1&gt;Voilà&lt;/h1&gt;</summary><category term="Docker"></category><category term="Pelican"></category></entry><entry><title>Python 不推荐的用法</title><link href="/pages/2016/07/27/python-bad-usages/" rel="alternate"></link><published>2016-07-27T14:37:00+08:00</published><author><name>Alex Hou</name></author><id>tag:,2016-07-27:pages/2016/07/27/python-bad-usages/</id><summary type="html">&lt;p&gt;对于同一件事情，Python 有很多灵活的手段可以实现。但是哪些是不那么好的呢……&lt;/p&gt;
 &lt;h1&gt;1.导入&lt;/h1&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;module&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
