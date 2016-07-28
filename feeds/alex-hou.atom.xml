@@ -51,7 +51,7 @@ Summary: 内容提要
 &lt;h1&gt;3.开通github.io个人页&lt;/h1&gt;
 &lt;p&gt;打开&lt;a href="https://pages.github.com/"&gt;GitHub Pages&lt;/a&gt;或&lt;a href="http://guides.github.com/features/pages/"&gt;GitHub Pages 帮助页&lt;/a&gt;，内容已经很详尽了，下拉式向导，比Windows下安装软件还傻瓜化。
 开通后clone到website/output目录下&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone https://github.com/&amp;lt;yourname&amp;gt;/&amp;lt;yourname&amp;gt;.github.io.git output/
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone https://github.com/&amp;lt;yourname&amp;gt;/&amp;lt;yourname&amp;gt;.github.io.git website/output/
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -65,6 +65,8 @@ Username for &amp;#39;https://github.com&amp;#39;:
 # 输入Github用户名
 Password for &amp;#39;https://&amp;lt;your@email.address&amp;gt;@github.com&amp;#39;: 
 # 输入Github密码
+# 其实这里可以改为使用SSH协议从而实现免密push
+# 参考：https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/#platform-linux
 &lt;/pre&gt;&lt;/div&gt;
 
 
