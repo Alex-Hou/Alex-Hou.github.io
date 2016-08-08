@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+        <title>SQLAlchemy 基本使用</title>
+        <meta charset="utf-8" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+
+        <script src="/theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <div class="row">
+
+          <header id="banner" class="body">
+                  <h1><a href="/">不过满腹 <strong></strong></a></h1>
+          </header><!-- /#banner -->
+
+            <div id="navigation" class="navbar row">
+              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+             
+              <ul class="columns">
+                <li><a href="/">Home</a></li>
+
+
+              </ul>
+            </div>
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="eleven columns">
+
+
+            <header>
+              <h2 class="entry-title">
+                <a href="/pages/2016/08/07/sqlalchemy-basic/" rel="bookmark"
+                   title="Permalink to SQLAlchemy 基本使用">SQLAlchemy 基本使用</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2016-08-07T14:48:00+08:00">
+                Sun 07 August 2016
+              </abbr>
+              <address class="vcard author">By 
+                <a class="url fn" href="/author/alex-hou.html"> Alex Hou</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <p><a href="http://www.sqlalchemy.org/">SQLAlchemy</a>是目前Python社区最常用的SQL/ORM工具集，提供了一整套的数据持久化解决方案。SQLAlchey易于使用，方便扩展，只要你理解数据库的基本概念和基本的SQL就可以很快上手。当然，你还需要懂一点Python。
+下面的例子来源于<a href="https://cn.udacity.com/course/full-stack-foundations--ud088/">Udacity - Full Stack Foundations</a></p>
+<h1>创建数据映射</h1>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Column</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">String</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.ext.declarative</span> <span class="kn">import</span> <span class="n">declarative_base</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">relationship</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
+
+<span class="n">Base</span> <span class="o">=</span> <span class="n">declarative_base</span><span class="p">()</span>
+
+<span class="c1"># Mapping</span>
+<span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;restaurant&#39;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">80</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">MenuItem</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s1">&#39;menu_item&#39;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">80</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">course</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">250</span><span class="p">))</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">250</span><span class="p">))</span>
+    <span class="n">price</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>
+    <span class="n">restaurant_id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;restaurant.id&#39;</span><span class="p">))</span>
+    <span class="n">restaurant</span> <span class="o">=</span> <span class="n">relationship</span><span class="p">(</span><span class="n">Restaurant</span><span class="p">)</span>
+
+<span class="c1"># 根据URL创建数据库连接</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s1">&#39;sqlite:///restaurantMenu.db&#39;</span><span class="p">)</span>
+
+<span class="c1"># 创建数据表</span>
+<span class="n">Base</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">create_all</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span>
+</pre></div>
+
+
+<h1>增查改删(CRUD)操作</h1>
+<p>默默地吐槽一下为什么中文习惯是“增删改查”，为了对应英文缩写的顺序只好把这个词改了……</p>
+<h2>建立环境</h2>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">sessionmaker</span>
+<span class="kn">from</span> <span class="nn">database_setup</span> <span class="kn">import</span> <span class="n">Base</span><span class="p">,</span> <span class="n">Restaurant</span><span class="p">,</span> <span class="n">MenuItem</span>
+
+<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s1">&#39;sqlite:///restaurantMenu.db&#39;</span><span class="p">)</span>
+<span class="n">Base</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">bind</span><span class="o">=</span><span class="n">engine</span>
+<span class="n">DBSession</span> <span class="o">=</span> <span class="n">sessionmaker</span><span class="p">(</span><span class="n">bind</span> <span class="o">=</span> <span class="n">engine</span><span class="p">)</span>
+<span class="n">session</span> <span class="o">=</span> <span class="n">DBSession</span><span class="p">()</span>
+</pre></div>
+
+
+<h2>新增数据 CREATE (insert into)</h2>
+<div class="highlight"><pre><span></span><span class="n">myFirstRestaurant</span> <span class="o">=</span> <span class="n">Restaurant</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Pizza Palace&quot;</span><span class="p">)</span>
+<span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">myFirstRestaurant</span><span class="p">)</span>
+<span class="n">sesssion</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+<span class="n">cheesepizza</span> <span class="o">=</span> <span class="n">menuItem</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Cheese Pizza&quot;</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Made with all natural ingredients and fresh mozzarella&quot;</span><span class="p">,</span> <span class="n">course</span><span class="o">=</span><span class="s2">&quot;Entree&quot;</span><span class="p">,</span> <span class="n">price</span><span class="o">=</span><span class="s2">&quot;$8.99&quot;</span><span class="p">,</span> <span class="n">restaurant</span><span class="o">=</span><span class="n">myFirstRestaurant</span><span class="p">)</span>
+<span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">cheesepizza</span><span class="p">)</span>
+<span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+
+
+<h2>查询数据 READ (select from)</h2>
+<div class="highlight"><pre><span></span><span class="n">firstResult</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Restaurant</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+<span class="n">firstResult</span><span class="o">.</span><span class="n">name</span>
+
+<span class="n">items</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">MenuItem</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">item</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+
+
+<h2>更新数据 UPDATE (update)</h2>
+<div class="highlight"><pre><span></span><span class="c1"># 1. 找到需要修改的数据</span>
+<span class="n">veggieBurgers</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">MenuItem</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">name</span><span class="o">=</span> <span class="s1">&#39;Veggie Burger&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">veggieBurger</span> <span class="ow">in</span> <span class="n">veggieBurgers</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">veggieBurger</span><span class="o">.</span><span class="n">id</span>
+    <span class="k">print</span> <span class="n">veggieBurger</span><span class="o">.</span><span class="n">price</span>
+    <span class="k">print</span> <span class="n">veggieBurger</span><span class="o">.</span><span class="n">restaurant</span><span class="o">.</span><span class="n">name</span>
+    <span class="k">print</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="n">UrbanVeggieBurger</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">MenuItem</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span><span class="o">.</span><span class="n">one</span><span class="p">()</span>
+<span class="c1"># 2. 修改对应的值</span>
+<span class="n">UrbanVeggieBurger</span><span class="o">.</span><span class="n">price</span> <span class="o">=</span> <span class="s1">&#39;$2.99&#39;</span>
+<span class="c1"># 3. 将对象添加到session</span>
+<span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">UrbanVeggieBurger</span><span class="p">)</span>
+<span class="c1"># 4. 执行commit操作</span>
+<span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span> 
+</pre></div>
+
+
+<h2>删除数据 DELETE (delete)</h2>
+<div class="highlight"><pre><span></span><span class="c1"># 1. 找到需要删除的数据</span>
+<span class="n">spinach</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">MenuItem</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Spinach Ice Cream&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">one</span><span class="p">()</span>
+<span class="c1"># 2. 执行delete操作</span>
+<span class="n">session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">spinach</span><span class="p">)</span>
+<span class="c1"># 3. 执行commit操作</span>
+<span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span> 
+</pre></div>
+            </div><!-- /.entry-content -->
+            <div class="comments">
+              <h3>Comments</h3>
+              <div id="disqus_thread"></div>
+              <script type="text/javascript">
+                var disqus_identifier = "pages/2016/08/07/sqlalchemy-basic/";
+                (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'https://icantfindone.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+              </script>
+            </div>
+
+
+        </div><!-- /.eleven.columns -->
+
+<div class="three columns">
+
+<h4>Pages</h4>
+
+ <ul>
+  </ul>
+
+<h4>Categories</h4>
+<ul class="blank">
+		<li><a href="/category/blog.html">Blog</a></li>
+		<li><a href="/category/pai-zhang.html">排障</a></li>
+		<li><a href="/category/python.html">Python</a></li>
+</ul>
+
+
+<h4>Tags</h4>
+	<ul class="blank">
+</ul>
+
+
+<nav class="widget">
+  <h4>Social</h4>
+  <ul class="blank">
+    <li><a href="http://www.cnblogs.com/qingheng/">轻哼</a></li>
+    <li><a href="http://www.github.com/Alex-Hou">Github</a></li>
+  </ul>
+</nav>
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+    
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+
+
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'icantfindone';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+  <script src="/theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="/theme/js/libs/gumby.min.js"></script>
+  <script src="/theme/js/plugins.js"></script>
+</body>
+</html>
