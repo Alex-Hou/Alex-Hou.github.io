@@ -51,6 +51,29 @@
         <div class="eleven columns">
                  <ol id="post-list">
                         <li><article class="hentry">
+                                <header> <h2 class="entry-title"><a href="/pages/2016/08/07/sqlalchemy-basic/" rel="bookmark" title="Permalink to SQLAlchemy 基本使用">SQLAlchemy 基本使用</a></h2> </header>
+                                <footer class="post-info">
+                                    <abbr class="published" title="2016-08-07T14:48:00+08:00"> Sun 07 August 2016 </abbr>
+                                    <address class="vcard author">By 
+                                    <a class="url fn" href="/author/alex-hou.html"> Alex Hou</a>
+                                    </address>
+                                </footer><!-- /.post-info -->
+                                <div class="entry-content"> <p>SQLAlchemy是目前Python社区最常用的SQL/ORM工具集，本文介绍了它的基本CRUD使用方法。</p> </div><!-- /.entry-content -->
+
+                                <div class="medium primary btn"><a href="/pages/2016/08/07/sqlalchemy-basic/" rel="bookmark" title="Permalink to SQLAlchemy 基本使用">Read more <i class="icon-arrow-right"></i></a></div>
+
+
+
+                                <div class="row tag-row">
+                                        <span>Tagged as : </span>
+                                            <a class="danger label" href="/tag/python.html">Python</a>
+                                            <a class="danger label" href="/tag/sqlalchemy.html">SQLAlchemy</a>
+                                </div>
+
+
+
+                        </article></li>
+                        <li><article class="hentry">
                                 <header> <h2 class="entry-title"><a href="/pages/2016/07/28/using-docker-pelican/" rel="bookmark" title="Permalink to 使用 docker-pelican, github.io 编写博客">使用 docker-pelican, github.io 编写博客</a></h2> </header>
                                 <footer class="post-info">
                                     <abbr class="published" title="2016-07-28T11:46:00+08:00"> Thu 28 July 2016 </abbr>
@@ -58,7 +81,7 @@
                                     <a class="url fn" href="/author/alex-hou.html"> Alex Hou</a>
                                     </address>
                                 </footer><!-- /.post-info -->
-                                <div class="entry-content">  </div><!-- /.entry-content -->
+                                <div class="entry-content"> <p>本文介绍在Linux下使用docker-pelican快速搭建一个可用的博客编写环境。</p> </div><!-- /.entry-content -->
 
                                 <div class="medium primary btn"><a href="/pages/2016/07/28/using-docker-pelican/" rel="bookmark" title="Permalink to 使用 docker-pelican, github.io 编写博客">Read more <i class="icon-arrow-right"></i></a></div>
 
@@ -89,67 +112,7 @@
 
                                 <div class="row tag-row">
                                         <span>Tagged as : </span>
-                                            <a class="danger label" href="/tag/python.html">python</a>
-                                </div>
-
-
-
-                        </article></li>
-                        <li><article class="hentry">
-                                <header> <h2 class="entry-title"><a href="/pages/2014/08/17/oid/" rel="bookmark" title="Permalink to 一个OID的小问题">一个OID的小问题</a></h2> </header>
-                                <footer class="post-info">
-                                    <abbr class="published" title="2014-08-17T16:43:00+08:00"> Sun 17 August 2014 </abbr>
-                                    <address class="vcard author">By 
-                                    <a class="url fn" href="/author/alex-hou.html"> Alex Hou</a>
-                                    </address>
-                                </footer><!-- /.post-info -->
-                                <div class="entry-content"> <p>最近工作中一项任务涉及到使用SNMP协议获取网络设备的启动时间。一开始，这只是个简单的体力劳动：联系厂商-&gt;索要相关OID-&gt;测试-&gt;反馈。本以为一下午就可以搞定的事情，因为测试的时候发现了“神奇的问题”而拖了两三天。这里简单记录一下探索的过程。</p>
-<h3>1. 问题描述：</h3>
-<p>按照<a href="http://tools.cisco.com/Support/SNMP/do/BrowseOID.do" title="官方网站查询">官方网站查询</a>结果，Cisco 各系列IOS路由器、交换机的sysUpTime OID均为:</p>
-<blockquote>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Object</td>
-<td>sysUpTime</td>
-</tr>
-<tr>
-<td>OID</td>
-<td>1.3.6.1.2.1.1.3</td>
-</tr>
-<tr>
-<td>Type</td>
-<td>TimeTicks</td>
-</tr>
-<tr>
-<td>Permission</td>
-<td>read-only</td>
-</tr>
-<tr>
-<td>MIB</td>
-<td>SNMPv2-MIB</td>
-</tr>
-</tbody>
-</table>
-</blockquote>
-<p>使用SNMP工具测试一台最近上线的设备，通过该OID取到的值与登录设备show version看到的UpTime一致。原本事情到这里就结束了，但是不知为何一时鬼迷心窍又挑了一台前几年上线的6509进行测试。一看结果：</p>
-<blockquote>
-<p>sysUpTime.0 = Timeticks: (254716234 ...</p></blockquote> </div><!-- /.entry-content -->
-
-                                <div class="medium primary btn"><a href="/pages/2014/08/17/oid/" rel="bookmark" title="Permalink to 一个OID的小问题">Read more <i class="icon-arrow-right"></i></a></div>
-
-
-
-                                <div class="row tag-row">
-                                        <span>Tagged as : </span>
-                                            <a class="danger label" href="/tag/oid.html">oid</a>
-                                            <a class="danger label" href="/tag/cisco.html">cisco</a>
+                                            <a class="danger label" href="/tag/python.html">Python</a>
                                 </div>
 
 
@@ -190,7 +153,8 @@
 </div> </div><!-- /.row -->
 
 <p class="paginator">
-    Page 1 / 1
+    Page 1 / 2
+        <a href="/index2.html"><i class="icon-arrow-right"></i></a>
 </p>
 </section><!-- /#content -->
 

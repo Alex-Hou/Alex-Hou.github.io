@@ -51,53 +51,16 @@
         <div class="eleven columns">
                  <ol id="post-list">
                         <li><article class="hentry">
-                                <header> <h2 class="entry-title"><a href="/pages/2014/08/17/oid/" rel="bookmark" title="Permalink to 一个OID的小问题">一个OID的小问题</a></h2> </header>
+                                <header> <h2 class="entry-title"><a href="/pages/2014/08/17/oid-debugging/" rel="bookmark" title="Permalink to 一个OID的小问题">一个OID的小问题</a></h2> </header>
                                 <footer class="post-info">
                                     <abbr class="published" title="2014-08-17T16:43:00+08:00"> Sun 17 August 2014 </abbr>
                                     <address class="vcard author">By 
                                     <a class="url fn" href="/author/alex-hou.html"> Alex Hou</a>
                                     </address>
                                 </footer><!-- /.post-info -->
-                                <div class="entry-content"> <p>最近工作中一项任务涉及到使用SNMP协议获取网络设备的启动时间。一开始，这只是个简单的体力劳动：联系厂商-&gt;索要相关OID-&gt;测试-&gt;反馈。本以为一下午就可以搞定的事情，因为测试的时候发现了“神奇的问题”而拖了两三天。这里简单记录一下探索的过程。</p>
-<h3>1. 问题描述：</h3>
-<p>按照<a href="http://tools.cisco.com/Support/SNMP/do/BrowseOID.do" title="官方网站查询">官方网站查询</a>结果，Cisco 各系列IOS路由器、交换机的sysUpTime OID均为:</p>
-<blockquote>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Object</td>
-<td>sysUpTime</td>
-</tr>
-<tr>
-<td>OID</td>
-<td>1.3.6.1.2.1.1.3</td>
-</tr>
-<tr>
-<td>Type</td>
-<td>TimeTicks</td>
-</tr>
-<tr>
-<td>Permission</td>
-<td>read-only</td>
-</tr>
-<tr>
-<td>MIB</td>
-<td>SNMPv2-MIB</td>
-</tr>
-</tbody>
-</table>
-</blockquote>
-<p>使用SNMP工具测试一台最近上线的设备，通过该OID取到的值与登录设备show version看到的UpTime一致。原本事情到这里就结束了，但是不知为何一时鬼迷心窍又挑了一台前几年上线的6509进行测试。一看结果：</p>
-<blockquote>
-<p>sysUpTime.0 = Timeticks: (254716234 ...</p></blockquote> </div><!-- /.entry-content -->
+                                <div class="entry-content"> <p>记录了一次排查SNMP取值问题的探索过程</p> </div><!-- /.entry-content -->
 
-                                <div class="medium primary btn"><a href="/pages/2014/08/17/oid/" rel="bookmark" title="Permalink to 一个OID的小问题">Read more <i class="icon-arrow-right"></i></a></div>
+                                <div class="medium primary btn"><a href="/pages/2014/08/17/oid-debugging/" rel="bookmark" title="Permalink to 一个OID的小问题">Read more <i class="icon-arrow-right"></i></a></div>
 
 
 
