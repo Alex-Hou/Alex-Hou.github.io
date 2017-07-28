@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>不过满腹</title><link href="/" rel="alternate"></link><link href="/feeds/alex-hou.atom.xml" rel="self"></link><id>/</id><updated>2016-08-07T14:48:00+08:00</updated><entry><title>SQLAlchemy 基本使用</title><link href="/pages/2016/08/07/sqlalchemy-basic/" rel="alternate"></link><published>2016-08-07T14:48:00+08:00</published><author><name>Alex Hou</name></author><id>tag:,2016-08-07:pages/2016/08/07/sqlalchemy-basic/</id><summary type="html">&lt;p&gt;&lt;a href="http://www.sqlalchemy.org/"&gt;SQLAlchemy&lt;/a&gt;是目前Python社区最常用的SQL/ORM工具集，提供了一整套的数据持久化解决方案。SQLAlchey易于使用，方便扩展，只要你理解数据库的基本概念和基本的SQL就可以很快上手。当然，你还需要懂一点Python。
+<feed xmlns="http://www.w3.org/2005/Atom"><title>不过满腹 - Alex Hou</title><link href="/" rel="alternate"></link><link href="/feeds/alex-hou.atom.xml" rel="self"></link><id>/</id><updated>2016-08-07T14:48:00+08:00</updated><entry><title>SQLAlchemy 基本使用</title><link href="/pages/2016/08/07/sqlalchemy-basic/" rel="alternate"></link><published>2016-08-07T14:48:00+08:00</published><updated>2016-08-07T14:48:00+08:00</updated><author><name>Alex Hou</name></author><id>tag:None,2016-08-07:/pages/2016/08/07/sqlalchemy-basic/</id><summary type="html">&lt;p&gt;SQLAlchemy是目前Python社区最常用的SQL/ORM工具集，本文介绍了它的基本CRUD使用方法。&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;a href="http://www.sqlalchemy.org/"&gt;SQLAlchemy&lt;/a&gt;是目前Python社区最常用的SQL/ORM工具集，提供了一整套的数据持久化解决方案。SQLAlchey易于使用，方便扩展，只要你理解数据库的基本概念和基本的SQL就可以很快上手。当然，你还需要懂一点Python。
 下面的例子来源于&lt;a href="https://cn.udacity.com/course/full-stack-foundations--ud088/"&gt;Udacity - Full Stack Foundations&lt;/a&gt;&lt;/p&gt;
 &lt;h1&gt;创建数据映射&lt;/h1&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
@@ -96,7 +96,7 @@
 &lt;span class="n"&gt;session&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;delete&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;spinach&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="c1"&gt;# 3. 执行commit操作&lt;/span&gt;
 &lt;span class="n"&gt;session&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;commit&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; 
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="Python"></category><category term="SQLAlchemy"></category></entry><entry><title>使用 docker-pelican, github.io 编写博客</title><link href="/pages/2016/07/28/using-docker-pelican/" rel="alternate"></link><published>2016-07-28T11:46:00+08:00</published><author><name>Alex Hou</name></author><id>tag:,2016-07-28:pages/2016/07/28/using-docker-pelican/</id><summary type="html">&lt;p&gt;本文介绍在Linux下使用docker-pelican快速搭建一个可用的博客编写环境。&lt;/p&gt;
+&lt;/pre&gt;&lt;/div&gt;</content><category term="Python"></category><category term="SQLAlchemy"></category></entry><entry><title>使用 docker-pelican, github.io 编写博客</title><link href="/pages/2016/07/28/using-docker-pelican/" rel="alternate"></link><published>2016-07-28T11:46:00+08:00</published><updated>2016-07-28T11:46:00+08:00</updated><author><name>Alex Hou</name></author><id>tag:None,2016-07-28:/pages/2016/07/28/using-docker-pelican/</id><summary type="html">&lt;p&gt;本文介绍在Linux下使用docker-pelican快速搭建一个可用的博客编写环境。&lt;/p&gt;</summary><content type="html">&lt;p&gt;本文介绍在Linux下使用docker-pelican快速搭建一个可用的博客编写环境。&lt;/p&gt;
 &lt;h1&gt;1.安装docker, git&lt;/h1&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo apt-get install docker.io 
 sudo apt-get install git
@@ -168,7 +168,7 @@ Password for &amp;#39;https://&amp;lt;your@email.address&amp;gt;@github.com&amp;
 
 
 &lt;p&gt;然后打开你的主页&lt;code&gt;https://&amp;lt;yourname&amp;gt;.github.io&lt;/code&gt;&lt;/p&gt;
-&lt;h1&gt;Voilà&lt;/h1&gt;</summary><category term="Docker"></category><category term="Pelican"></category></entry><entry><title>Python 不推荐的用法</title><link href="/pages/2016/07/27/python-bad-usages/" rel="alternate"></link><published>2016-07-27T14:37:00+08:00</published><author><name>Alex Hou</name></author><id>tag:,2016-07-27:pages/2016/07/27/python-bad-usages/</id><summary type="html">&lt;p&gt;对于同一件事情，Python 有很多灵活的手段可以实现。但是哪些是不那么好的呢……&lt;/p&gt;
+&lt;h1&gt;Voilà&lt;/h1&gt;</content><category term="Docker"></category><category term="Pelican"></category></entry><entry><title>Python 不推荐的用法</title><link href="/pages/2016/07/27/python-bad-usages/" rel="alternate"></link><published>2016-07-27T14:30:00+08:00</published><updated>2016-07-27T14:37:00+08:00</updated><author><name>Alex Hou</name></author><id>tag:None,2016-07-27:/pages/2016/07/27/python-bad-usages/</id><summary type="html">&lt;p&gt;对于同一件事情，Python 有很多灵活的手段可以实现。但是哪些是不那么好的呢……&lt;/p&gt;</summary><content type="html">&lt;p&gt;对于同一件事情，Python 有很多灵活的手段可以实现。但是哪些是不那么好的呢……&lt;/p&gt;
 &lt;h1&gt;1.导入&lt;/h1&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;module&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -290,7 +290,7 @@ Password for &amp;#39;https://&amp;lt;your@email.address&amp;gt;@github.com&amp;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;使用反斜线续行，若行尾有空格，会导致续行失败，出现难以排查的问题。&lt;/p&gt;</summary><category term="Python"></category></entry><entry><title>一个OID的小问题</title><link href="/pages/2014/08/17/oid-debugging/" rel="alternate"></link><published>2014-08-17T16:43:00+08:00</published><author><name>Alex Hou</name></author><id>tag:,2014-08-17:pages/2014/08/17/oid-debugging/</id><summary type="html">&lt;p&gt;最近工作中一项任务涉及到使用SNMP协议获取网络设备的启动时间。一开始，这只是个简单的体力劳动：联系厂商-&amp;gt;索要相关OID-&amp;gt;测试-&amp;gt;反馈。本以为一下午就可以搞定的事情，因为测试的时候发现了“神奇的问题”而拖了两三天。这里简单记录一下探索的过程。&lt;/p&gt;
+&lt;p&gt;使用反斜线续行，若行尾有空格，会导致续行失败，出现难以排查的问题。&lt;/p&gt;</content><category term="Python"></category></entry><entry><title>一个OID的小问题</title><link href="/pages/2014/08/17/oid-debugging/" rel="alternate"></link><published>2014-08-17T16:43:00+08:00</published><updated>2014-08-17T16:43:00+08:00</updated><author><name>Alex Hou</name></author><id>tag:None,2014-08-17:/pages/2014/08/17/oid-debugging/</id><summary type="html">&lt;p&gt;记录了一次排查SNMP取值问题的探索过程&lt;/p&gt;</summary><content type="html">&lt;p&gt;最近工作中一项任务涉及到使用SNMP协议获取网络设备的启动时间。一开始，这只是个简单的体力劳动：联系厂商-&amp;gt;索要相关OID-&amp;gt;测试-&amp;gt;反馈。本以为一下午就可以搞定的事情，因为测试的时候发现了“神奇的问题”而拖了两三天。这里简单记录一下探索的过程。&lt;/p&gt;
 &lt;h3&gt;1. 问题描述：&lt;/h3&gt;
 &lt;p&gt;按照&lt;a href="http://tools.cisco.com/Support/SNMP/do/BrowseOID.do" title="官方网站查询"&gt;官方网站查询&lt;/a&gt;结果，Cisco 各系列IOS路由器、交换机的sysUpTime OID均为:&lt;/p&gt;
 &lt;blockquote&gt;
@@ -346,7 +346,7 @@ SYNTAX      TimeTicks
 
 
 &lt;p&gt;不知道精确到1%秒是出于什么考虑。不过好像有点眉目了——这货是个无符号整数嘛，小时候老师教育我们__拿到数据要算范围，一切没有最大值最小值精确度的计算机表示都是耍流氓__。来大概猜一下：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="" src="http://latex.codecogs.com/gif.latex?\frac{2^{32}}{100\times&amp;amp;space;24\times&amp;amp;space;60&amp;amp;space;\times&amp;amp;space;60}=497.1026963=497&amp;amp;space;days,02:27:53" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://latex.codecogs.com/gif.latex?\frac{2^{32}}{100\times&amp;amp;space;24\times&amp;amp;space;60&amp;amp;space;\times&amp;amp;space;60}=497.1026963=497&amp;amp;space;days,02:27:53"&gt;&lt;/p&gt;
 &lt;p&gt;加上刚才的29天，show version……&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;uptime is 1 year, 23 weeks, 13 hours, 32 minutes
 &lt;/pre&gt;&lt;/div&gt;
@@ -404,6 +404,6 @@ The TimeTicks type may not be sub-typed.
 
 
 &lt;p&gt;原来这是人家标准里定义好的，不是Bug。该值增长到2^32会自动重置为0，然后重新开始计数。害我瞎忙活一场。说到底还是功力不够。&lt;/p&gt;
-&lt;hr /&gt;
+&lt;hr&gt;
 &lt;p&gt;Update:
-写这篇文章的时候，查到对于这个问题，&lt;a href="https://supportforums.cisco.com/discussion/10349561/snmp-uptime#573246"&gt;官方论坛&lt;/a&gt;有进一步的讨论。&lt;/p&gt;</summary><category term="oid"></category><category term="cisco"></category></entry></feed>
+写这篇文章的时候，查到对于这个问题，&lt;a href="https://supportforums.cisco.com/discussion/10349561/snmp-uptime#573246"&gt;官方论坛&lt;/a&gt;有进一步的讨论。&lt;/p&gt;</content><category term="oid"></category><category term="cisco"></category></entry></feed>

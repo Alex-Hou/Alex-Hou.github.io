@@ -118,7 +118,7 @@ SYNTAX      TimeTicks
 
 
 <p>不知道精确到1%秒是出于什么考虑。不过好像有点眉目了——这货是个无符号整数嘛，小时候老师教育我们__拿到数据要算范围，一切没有最大值最小值精确度的计算机表示都是耍流氓__。来大概猜一下：</p>
-<p><img alt="" src="http://latex.codecogs.com/gif.latex?\frac{2^{32}}{100\times&amp;space;24\times&amp;space;60&amp;space;\times&amp;space;60}=497.1026963=497&amp;space;days,02:27:53" /></p>
+<p><img alt="" src="http://latex.codecogs.com/gif.latex?\frac{2^{32}}{100\times&amp;space;24\times&amp;space;60&amp;space;\times&amp;space;60}=497.1026963=497&amp;space;days,02:27:53"></p>
 <p>加上刚才的29天，show version……</p>
 <div class="highlight"><pre><span></span>uptime is 1 year, 23 weeks, 13 hours, 32 minutes
 </pre></div>
@@ -176,7 +176,7 @@ The TimeTicks type may not be sub-typed.
 
 
 <p>原来这是人家标准里定义好的，不是Bug。该值增长到2^32会自动重置为0，然后重新开始计数。害我瞎忙活一场。说到底还是功力不够。</p>
-<hr />
+<hr>
 <p>Update:
 写这篇文章的时候，查到对于这个问题，<a href="https://supportforums.cisco.com/discussion/10349561/snmp-uptime#573246">官方论坛</a>有进一步的讨论。</p>
             </div><!-- /.entry-content -->
